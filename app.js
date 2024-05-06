@@ -1,7 +1,12 @@
 const fs = require('fs');
 const express = require('express'); // adding methods from express
+const morgan = require('morgan');
 
 const app = express();
+
+// 1) MIDDLEWARES
+
+app.use(morgan('dev')); // calling morgan will return kind of the same function
 
 app.use(express.json()); // middleware, modifying th eincoming request data
 
@@ -15,6 +20,8 @@ app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
+
+// ROUTE HANDLERS
 
 //getting the json file with all the tours: parsing the file with json we ve read
 const tours = JSON.parse(
@@ -108,6 +115,8 @@ const deleteTour = (req, res) => {
 // app.patch('/api/v1/tours/:id', updateTour);
 // app.delete('/api/v1/tours/:id', deleteTour);
 
+// ROIUTES
+
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 
 app
@@ -117,6 +126,8 @@ app
   .delete(deleteTour);
 
 const port = 3000;
+
+// START SERVER
 
 //creating server
 app.listen(port, () => {
