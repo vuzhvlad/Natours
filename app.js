@@ -5,14 +5,27 @@ const app = express();
 
 app.use(express.json()); // middleware, modifying th eincoming request data
 
+app.use((req, res, next) => {
+  // this middleware applies toe very route cause we diddnt specify it
+  console.log('Hello from the middleware');
+  next(); // always call next inside of the middleware
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
+
 //getting the json file with all the tours: parsing the file with json we ve read
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
 const getAllTours = (req, res) => {
+  console.log(req.requestTime);
   res.status(200).json({
     status: 'success',
+    reqestedAt: req.requestTime,
     results: tours.length,
     data: {
       tours,
@@ -90,12 +103,13 @@ const deleteTour = (req, res) => {
 };
 
 // app.get('/api/v1/tours', getAllTours);
-app.get('/api/v1/tours/:id', getTour);
+// app.get('/api/v1/tours/:id', getTour);
 // app.post('/api/v1/tours', createTour);
-app.patch('/api/v1/tours/:id', updateTour);
-app.delete('/api/v1/tours/:id', deleteTour);
+// app.patch('/api/v1/tours/:id', updateTour);
+// app.delete('/api/v1/tours/:id', deleteTour);
 
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
+
 app
   .route('/api/v1/tours/:id')
   .get(getTour)
