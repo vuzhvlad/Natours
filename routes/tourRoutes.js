@@ -10,7 +10,7 @@ router.param('id', tourController.checkID); // checks if id exists
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.createTour);
+  .post(tourController.checkBody, tourController.createTour); // chaining middleware, for first checking hte body and then posting
 
 router
   .route('/:id')
