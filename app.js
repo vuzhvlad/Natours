@@ -10,8 +10,8 @@ const app = express();
 // MIDDLEWARES
 
 app.use(morgan('dev')); // calling morgan will return kind of the same function
-
 app.use(express.json()); // middleware, modifying the incoming request data
+app.use(express.static(`${__dirname}/public`)); // serving static file
 
 app.use((req, res, next) => {
   // this middleware applies toe very route cause we diddnt specify it
