@@ -17,40 +17,6 @@ mongoose
   }) //connecting database via mongoose to our backend
   .then(() => console.log('db connection successful'));
 
-const tourSchema = new mongoose.Schema({
-  // creating schema
-  name: {
-    // schema type object
-    type: String,
-    required: [true, 'A tour must have a name'], // required and an error for it
-    unique: true, // we cant have 2 tour documents with the same name
-  },
-  rating: {
-    type: Number,
-    default: 4.5,
-  },
-  price: {
-    type: Number,
-    required: [true, 'A tour must have a price'],
-  },
-});
-
-const Tour = mongoose.model('Tour', tourSchema); // creating model out of the schema, (model name, schema)
-
-const testTour = new Tour({
-  name: 'The Park Camper',
-  price: 457,
-});
-
-testTour
-  .save()
-  .then((document) => {
-    console.log(document);
-  })
-  .catch((err) => {
-    console.log(err);
-  }); // it will save this tour to the tours collection in db
-
 const port = process.env.PORT;
 //creating server
 app.listen(port, () => {

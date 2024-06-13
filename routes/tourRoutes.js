@@ -5,12 +5,12 @@ const tourController = require('./../controllers/tourController'); // getting ou
 const router = express.Router(); // creating new router
 
 // special middleware for working with parameters, that works only in this subroute - Tours
-router.param('id', tourController.checkID); // checks if id exists
+// router.param('id', tourController.checkID); // checks if id exists
 
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.checkBody, tourController.createTour); // chaining middleware, for first checking hte body and then posting
+  .post(tourController.createTour); // chaining middleware, for first checking hte body and then posting
 
 router
   .route('/:id')
