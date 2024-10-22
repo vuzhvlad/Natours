@@ -27,6 +27,14 @@ exports.getAllTours = async (req, res) => {
       query = query.sort('-createdAt'); // default for sorting by time of creation
     }
 
+    // 3) Field limiting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' '); // getting the fields that will be included
+      query = query.select(fields); // putting them inside so if you user chooses them it will show only them
+    } else {
+      query = query.select('-__v'); // we do not only this field that is used for MongoDB
+    }
+
     //EXECUTE QUERY
     const tours = await query;
 
