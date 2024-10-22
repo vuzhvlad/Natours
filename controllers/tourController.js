@@ -35,6 +35,17 @@ exports.getAllTours = async (req, res) => {
       query = query.select('-__v'); // we do not only this field that is used for MongoDB
     }
 
+    // 4) Pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 100;
+    const skip = (page - 1) * limit; // formula for skip
+    // page=2&limit=10
+    query = query.skip(skip).limit(limit); // .skip() amount of results we actually skip before starting quering, 1-10 for page 1, 11-20 for page 2, .limit() items per page
+
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments(); // .countDocuments() - counting documents we have
+      if (skip >= numTours) throw new Error('This page does not exist');
+    }
     //EXECUTE QUERY
     const tours = await query;
 

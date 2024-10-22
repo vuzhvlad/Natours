@@ -51,7 +51,7 @@ const tourSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now(), // getting timestamp for when it was created
-    select: false, // it will never be selected and sent because user doesnt actually need this
+    select: false, // it will never be selected and sent because user doesnt actually need this, limiting this field
   },
   startDates: [Date],
 });
